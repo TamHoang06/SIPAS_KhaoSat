@@ -1,0 +1,140 @@
+﻿@model SIPAS_KhaoSat.ViewModels.DoiTuongKhaoSatViewModel
+
+@{
+    ViewData["Title"] = "Thông tin cá nhân";
+}
+
+<h2 class="form-title">THÔNG TIN CÁ NHÂN NGƯỜI TRẢ LỜI KHẢO SÁT</h2>
+
+<form asp-action="PhanA" method="post" class="survey-form">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <p><strong>Câu 1: Giới tính <span class="required">*</span></strong></p>
+        <label><input type="radio" asp-for="GioiTinh" value="true" /> Nam</label><br />
+        <label><input type="radio" asp-for="GioiTinh" value="false" /> Nữ</label>
+        <span asp-validation-for="GioiTinh" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <p><strong>Câu 2: Độ tuổi <span class="required">*</span></strong></p>
+        @for (int i = 1; i <= 5; i++)
+        {
+            <label>
+                <input type="radio" asp-for="DoTuoi" value="@i" />
+                @(i switch
+                {
+                    1 => "18 - 25 tuổi",
+                    2 => "25 - 34 tuổi",
+                    3 => "35 - 49 tuổi",
+                    4 => "50 - 60 tuổi",
+                    5 => "Trên 60 tuổi",
+                    _ => ""
+                })
+            </label>
+            <br />
+        }
+        <span asp-validation-for="DoTuoi" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <p><strong>Câu 3: Dân tộc <span class="required">*</span></strong></p>
+        <label><input type="radio" asp-for="MaDanToc" value="1" /> Kinh</label><br />
+        <label><input type="radio" asp-for="MaDanToc" value="2" /> Khác</label><br />
+        <input asp-for="DanTocKhac" class="form-control dan-toc-khac" placeholder="Viết cụ thể nếu khác..." style="display:none;" />
+        <span asp-validation-for="MaDanToc" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <p><strong>Câu 4: Trình độ học vấn <span class="required">*</span></strong></p>
+        @for (int i = 1; i <= 6; i++)
+        {
+            <label>
+                <input type="radio" asp-for="MaHocVan" value="@i" />
+                @(i switch
+                {
+                    1 => "Tiểu học (cấp I)",
+                    2 => "Trung học cơ sở (cấp II)",
+                    3 => "Trung học phổ thông (cấp III)",
+                    4 => "Dạy nghề/Trung cấp/Cao đẳng",
+                    5 => "Đại học/ trên Đại học",
+                    6 => "Khác",
+                    _ => ""
+                })
+            </label>
+            <br />
+        }
+        <input asp-for="HocVanKhac" class="form-control hoc-van-khac" placeholder="Viết cụ thể nếu khác..." style="display:none;" />
+        <span asp-validation-for="MaHocVan" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <p><strong>Câu 5: Nghề nghiệp <span class="required">*</span></strong></p>
+        @for (int i = 1; i <= 7; i++)
+        {
+            <label>
+                <input type="radio" asp-for="MaNgheNghiep" value="@i" />
+                @(i switch
+                {
+                    1 => "Nghỉ hưu",
+                    2 => "Không đi làm (ở nhà)",
+                    3 => "Làm công việc tự do",
+                    4 => "Sinh viên",
+                    5 => "Làm việc lĩnh vực tư",
+                    6 => "Làm việc lĩnh vực công",
+                    7 => "Khác",
+                    _ => ""
+                })
+            </label>
+            <br />
+        }
+        <input asp-for="NgheNghiepKhac" class="form-control nghe-nghiep-khac" placeholder="Viết cụ thể nếu khác..." style="display:none;" />
+        <span asp-validation-for="MaNgheNghiep" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <p><strong>Câu 6: Nơi sinh sống <span class="required">*</span></strong></p>
+        <p><em>Đô thị:</em></p>
+        <label><input type="radio" asp-for="MaNoiSong" value="1" /> Đồng bằng</label><br />
+        <label><input type="radio" asp-for="MaNoiSong" value="2" /> Miền núi</label><br />
+        <label><input type="radio" asp-for="MaNoiSong" value="3" /> Hải đảo</label><br />
+
+        <p><em>Nông thôn:</em></p>
+        <label><input type="radio" asp-for="MaNoiSong" value="4" /> Đồng bằng</label><br />
+        <label><input type="radio" asp-for="MaNoiSong" value="5" /> Miền núi</label><br />
+        <label><input type="radio" asp-for="MaNoiSong" value="6" /> Hải đảo</label><br />
+
+        <label><input type="radio" asp-for="MaNoiSong" value="7" /> Khác</label><br />
+        <input asp-for="NoiSongKhac" class="form-control noi-song-khac" placeholder="Viết cụ thể nếu khác..." style="display:none;" />
+        <span asp-validation-for="MaNoiSong" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Tiếp theo</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        function toggleKhac(radioSelector, textboxSelector, khacValue) {
+            const radios = document.querySelectorAll(radioSelector);
+            const textbox = document.querySelector(textboxSelector);
+            radios.forEach(r => {
+                r.addEventListener("change", function () {
+                    textbox.style.display = (this.value === khacValue) ? "block" : "none";
+                });
+                // Khởi tạo theo giá trị đã chọn sẵn (nếu reload validation)
+                if (r.checked && r.value === khacValue) {
+                    textbox.style.display = "block";
+                }
+            });
+        }
+
+        toggleKhac("input[name='MaDanToc']", ".dan-toc-khac", "2");
+        toggleKhac("input[name='MaHocVan']", ".hoc-van-khac", "6");
+        toggleKhac("input[name='MaNgheNghiep']", ".nghe-nghiep-khac", "7");
+        toggleKhac("input[name='MaNoiSong']", ".noi-song-khac", "7");
+    </script>
+
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

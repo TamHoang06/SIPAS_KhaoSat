@@ -1,0 +1,38 @@
+﻿@model List<SIPAS_CauHoi>
+@{
+    ViewData["Title"] = "Phần B - Câu hỏi khảo sát";
+    var luaChons = ViewBag.LuaChons as List<SIPAS_LuaChon>;
+}
+
+<h3><strong>PHẦN B. CÂU HỎI KHẢO SÁT</strong></h3>
+<p>Xin Ông/Bà khoanh tròn xung quanh chữ số (1, 2, 3, …) tương ứng với phương án trả lời mà Ông/Bà lựa chọn.</p>
+
+<form asp-action="PhanB" method="post">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nội dung</th>
+                @foreach (var lc in luaChons.Where(l => l.MaNhomLuaChon == 2))
+                {
+                    <th class="text-center">@lc.Nhan</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cauHoi in Model)
+            {
+                <tr>
+                    <td>@cauHoi.NoiDung</td>
+                    @foreach (var lc in luaChons.Where(l => l.MaNhomLuaChon == cauHoi.MaNhomLuaChon))
+                    {
+                        <td class="text-center">
+                            <input type="radio" name="cauhoi_@cauHoi.MaCauHoi" value="@lc.MaLuaChon" required />
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Tiếp tục</button>
+</form>
