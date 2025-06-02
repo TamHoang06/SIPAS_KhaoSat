@@ -4,5 +4,6 @@
     {
         public byte MaNoiSong { get; set; }
         public string TenNoiSong { get; set; } = string.Empty;
+        public string KhuVuc { get; set; }
     }
 }

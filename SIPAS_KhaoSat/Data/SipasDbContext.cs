@@ -40,6 +40,11 @@ namespace SIPAS_KhaoSat.Data
 
             modelBuilder.Entity<SIPAS_KetQua>()
                 .HasKey(k => k.MaDoiTuong);
+
+            modelBuilder.Entity<SIPAS_KetQuaTongHop>().HasNoKey();
+            modelBuilder.Entity<SIPAS_NgheNghiep>().HasNoKey();
+            modelBuilder.Entity<SIPAS_NoiSinhSong>().HasNoKey();
+            modelBuilder.Entity<SIPAS_TrinhDoHocVan>().HasNoKey();
         }
     }
 }
